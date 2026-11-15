@@ -30,7 +30,8 @@
             <div class="col">
                 <div style="display: flex; align-items: center; justify-content: space-between;">
                     <h2 style="display: inline-block;">Text Preview</h2>
-                    <button class="theme-inverse btn-outline" id="updatePreviewButton" onclick="toggleHidePreview();" style="margin-bottom: 0; display: inline-block;">Hide</button>
+                    <button class="theme-inverse btn-outline" id="updatePreviewButton" onclick="toggleHidePreview();"
+                        style="margin-bottom: 0; display: inline-block;">Hide</button>
                 </div>
                 <div id="textPreview" class="form-control unselectable" style="overflow-y: auto; display:block;"></div>
             </div>
@@ -49,22 +50,26 @@
                     </div>
                 </div>
                 <div class="col">
-                    <label for="commaDelaySlider" class="form-label" style="display: inline-block;">Comma delay (s): </label>
-                    <input style="display: inline-block; width: 100px;" type="number" class="form-control" id="commaDelayInput"
-                        value="0.2">
+                    <label for="commaDelaySlider" class="form-label" style="display: inline-block;">Comma delay (s):
+                    </label>
+                    <input style="display: inline-block; width: 100px;" type="number" class="form-control"
+                        id="commaDelayInput" value="0.2">
                     <div class="form-field">
                         <div class="form-range">
-                            <input type="range" class="form-range-input" id="commaDelaySlider" min="0" max="1000" value="200">
+                            <input type="range" class="form-range-input" id="commaDelaySlider" min="0" max="1000"
+                                value="200">
                         </div>
                     </div>
                 </div>
                 <div class="col">
-                    <label for="periodDelaySlider" class="form-label" style="display: inline-block;">Period delay (s): </label>
-                    <input style="display: inline-block; width: 100px;" type="number" class="form-control" id="periodDelayInput"
-                        value="0.5">
+                    <label for="periodDelaySlider" class="form-label" style="display: inline-block;">Period delay (s):
+                    </label>
+                    <input style="display: inline-block; width: 100px;" type="number" class="form-control"
+                        id="periodDelayInput" value="0.5">
                     <div class="form-field">
                         <div class="form-range">
-                            <input type="range" class="form-range-input" id="periodDelaySlider" min="0" max="1000" value="500">
+                            <input type="range" class="form-range-input" id="periodDelaySlider" min="0" max="1000"
+                                value="500">
                         </div>
                     </div>
                 </div>
@@ -91,16 +96,20 @@
             <p>Press the Start button or spacebar to begin reading.<br>
                 Use the &lt; and &gt; buttons or arrow keys to navigate, or click on a word in the preview to select it.
             </p>
-            <div>
-                <label for="longWordDelaySlider" class="form-label" style="display: inline-block;">Long word delay (s): </label>
-                <input style="display: inline-block; width: 100px;" type="number" class="form-control" id="longWordDelayInput"
-                    value="0.02">
-                <div class="form-field">
-                    <div class="form-range">
-                        <input type="range" class="form-range-input" id="longWordDelaySlider" min="0" max="200" value="20">
+            <div class="row align-items-start">
+                <div class="col">
+                    <label for="longWordDelaySlider" class="form-label" style="display: inline-block;">Long word delay
+                        (s): </label>
+                    <input style="display: inline-block; width: 100px;" type="number" class="form-control"
+                        id="longWordDelayInput" value="0.02">
+                    <div class="form-field">
+                        <div class="form-range">
+                            <input type="range" class="form-range-input" id="longWordDelaySlider" min="0" max="200"
+                                value="20">
+                        </div>
                     </div>
+                    <small class="form-text">The delay, per character, for words longer than 5 characters.</small>
                 </div>
-                <small class="form-text">The delay, per character, for words longer than 5 characters.</small>
             </div>
         </div>
     </div>
@@ -138,6 +147,12 @@
 
     .preview-span.this-word {
         background-color: rgba(255, 238, 0, 1);
+        text-decoration: underline;
+    }
+
+    .preview-span.this-word>button {
+        background-color: rgba(255, 238, 0, 1);
+        color: black;
         text-decoration: underline;
     }
 
@@ -193,7 +208,14 @@
     }
 
     function setOutput(word) {
-        let middleIndex = Math.floor(word.length / 2);
+        let wlen = word.length;
+        if (word.endsWith(",") || word.endsWith(".")) {
+            wlen -= 1;
+        }
+        let middleIndex = Math.floor(wlen / 2);
+        if (word[middleIndex] === "'" || word[middleIndex] === "’" || word[middleIndex] === "-") {
+            middleIndex -= 1;
+        }
         let left = word.substr(0, middleIndex);
         let middle = word.substr(middleIndex, 1);
         let right = word.substr(middleIndex + 1);
