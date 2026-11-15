@@ -214,6 +214,9 @@
             pointer = null;
             setOutput("");
         }
+        if (pointer) {
+            pointer.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
     }
 
     function slidersFromInputs() {
