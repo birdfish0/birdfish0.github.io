@@ -110,6 +110,19 @@
                     </div>
                     <small class="form-text">The delay, per character, for words longer than 5 characters.</small>
                 </div>
+                <div class="col">
+                    <label for="numberDelaySlider" class="form-label" style="display: inline-block;">Number delay
+                        (s): </label>
+                    <input style="display: inline-block; width: 100px;" type="number" class="form-control"
+                        id="numberDelayInput" value="0.2">
+                    <div class="form-field">
+                        <div class="form-range">
+                            <input type="range" class="form-range-input" id="numberDelaySlider" min="0" max="2000"
+                                value="200">
+                        </div>
+                    </div>
+                    <small class="form-text">The delay added for numbers.</small>
+                </div>
             </div>
         </div>
     </div>
@@ -263,6 +276,8 @@
         periodDelaySlider.dispatchEvent(new Event('change'));
         longWordDelaySlider.value = Math.floor(parseFloat(longWordDelayInput.value.trim()) * 1000);
         longWordDelaySlider.dispatchEvent(new Event('change'));
+        numberDelaySlider.value = Math.floor(parseFloat(numberDelayInput.value.trim()) * 1000);
+        numberDelaySlider.dispatchEvent(new Event('change'));
     }
 
     function inputsFromSliders() {
@@ -270,33 +285,21 @@
         commaDelayInput.value = parseFloat(commaDelaySlider.value.trim()) / 1000;
         periodDelayInput.value = parseFloat(periodDelaySlider.value.trim()) / 1000;
         longWordDelayInput.value = parseFloat(longWordDelaySlider.value.trim()) / 1000;
+        numberDelayInput.value = parseFloat(numberDelaySlider.value.trim()) / 1000;
     }
 
     slidersFromInputs();
-    wpmInput.addEventListener("change", () => {
-        slidersFromInputs();
+    [wpmInput, commaDelayInput, periodDelayInput, longWordDelayInput, numberDelayInput].forEach(input => {
+        input.addEventListener("change", () => {
+            slidersFromInputs();
+        });
     });
-    wpmSlider.addEventListener("input", () => {
-        inputsFromSliders();
+    [wpmSlider, commaDelaySlider, periodDelaySlider, longWordDelaySlider, numberDelaySlider].forEach(slider => {
+        slider.addEventListener("input", () => {
+            inputsFromSliders();
+        });
     });
-    commaDelayInput.addEventListener("change", () => {
-        slidersFromInputs();
-    });
-    commaDelaySlider.addEventListener("input", () => {
-        inputsFromSliders();
-    });
-    periodDelayInput.addEventListener("change", () => {
-        slidersFromInputs();
-    });
-    periodDelaySlider.addEventListener("input", () => {
-        inputsFromSliders();
-    });
-    longWordDelayInput.addEventListener("change", () => {
-        slidersFromInputs();
-    });
-    longWordDelaySlider.addEventListener("input", () => {
-        inputsFromSliders();
-    });
+
     textInput.addEventListener("input", update);
     update();
 
@@ -355,6 +358,9 @@
             }
             if (pointer && pointer.innerText.length > 5) {
                 delay += parseFloat(longWordDelayInput.value.trim()) * 1000 * (pointer.innerText.length - 5);
+            }
+            if (pointer && !isNaN(parseFloat(pointer.innerText.trim()))) {
+                delay += parseFloat(numberDelayInput.value.trim()) * 1000;
             }
             timeoutId = setTimeout(recursiveNextWord, delay);
         } else {
