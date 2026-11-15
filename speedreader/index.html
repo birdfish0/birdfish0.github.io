@@ -28,7 +28,10 @@
                     placeholder="Paste your text here..."></textarea>
             </div>
             <div class="col">
-                <h2>Text Preview</h2>
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <h2 style="display: inline-block;">Text Preview</h2>
+                    <button class="theme-inverse btn-outline" id="updatePreviewButton" onclick="toggleHidePreview();" style="margin-bottom: 0; display: inline-block;">Hide</button>
+                </div>
                 <div id="textPreview" class="form-control unselectable" style="overflow-y: auto; display:block;"></div>
             </div>
         </div>
@@ -173,6 +176,16 @@
     new ResizeObserver(() => {
         textPreview.style.height = textInput.clientHeight + "px";
     }).observe(textInput);
+
+    function toggleHidePreview() {
+        if (textPreview.style.display === "none") {
+            textPreview.style.display = "block";
+            updatePreviewButton.innerText = "Hide";
+        } else {
+            textPreview.style.display = "none";
+            updatePreviewButton.innerText = "Show";
+        }
+    }
 
     function switchTo(index) {
         wordIndex = index;
