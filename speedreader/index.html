@@ -222,11 +222,11 @@
 
     function setOutput(word) {
         let wlen = word.length;
-        if (word.endsWith(",") || word.endsWith(".")) {
+        if (word.endsWith(",") || word.endsWith(".") && wlen > 1) {
             wlen -= 1;
         }
         let middleIndex = Math.floor(wlen / 2);
-        if (word[middleIndex] === "'" || word[middleIndex] === "’" || word[middleIndex] === "-") {
+        if ((word[middleIndex] === "'" || word[middleIndex] === "’" || word[middleIndex] === "-") && middleIndex > 0) {
             middleIndex -= 1;
         }
         let left = word.substr(0, middleIndex);
